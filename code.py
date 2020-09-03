@@ -39,8 +39,8 @@ def cmat(fpath, filename, se=',', nparray=False):
 	if(nparray):
 		arr=corrmatrix.to_numpy()
 		return(arr)
-	if(nparray==False):
-		return(corrmatrix)  
+
+	return(corrmatrix)  
 
 
 def heatmap(a, fgsx=15, fgsy=15, mticks=False, title='Correlation Matrix', 
@@ -116,25 +116,27 @@ def hierachical_order(corr_array, inplace=False, met='complete',
 		return corr_array[idx, :][:, idx]
 
 
-def mst(corr, name=False):
+def mst(corr, name=False, pandas= False):
 	'''
 	Returns the minimum spanning tree. 
 	
 	Parameters:
 		corr(numpy array): nxn correlation matrix.
 		name (list): a list with the name of the vertex. 
- 	
+ 		pandas (str): True if the imput is a pandas datadrame.
+ 		
  	Returns:
  		g (igraph): the minimum spanning tree. 
 	''' 
+	if(pandas):
+		corr=corr.to_numpy()
+	
 	d=np.sqrt(2*(1-corr))
 	l=np.int(len(corr)*len(corr)-len(corr)*(len(corr)-1)/2)
-	x=np.triu(d)
-	XX,YY = np.meshgrid(np.arange(x.shape[1]),np.arange(x.shape[0]))
-	table = np.vstack((x.ravel(),XX.ravel(),YY.ravel())).T
-
-	d2= table[np.argsort(table[:, 0])]
-	d2=np.delete(d2,np.s_[0:l],axis=0)
+	a=squareform(d)
+	b,c=np.triu_indices(len(d),k=1)
+	d2=np.array(list(zip(a,c,b)))
+	d2= d2[np.argsort(d2[:, 0])]
 	ls=np.zeros((len(corr), 2))
 	ls[:, 0]=np.arange(0, len(corr))
 	ls[:, 1]=np.arange(0, len(corr))
@@ -149,7 +151,8 @@ def mst(corr, name=False):
 	g.add_vertices(len(corr))
 	if(name):
 		g.vs["label"] = name
-	while(i<len(d2)):
+	counter=0
+	while(counter<len(corr)-1):
 		a1=int(d2[i, 1])
 		a2=int(d2[i, 2])
  
@@ -159,6 +162,7 @@ def mst(corr, name=False):
 			ck=ls[a2, 1]
 			ck1=ls[a1, 1]
 			ls[ls[:, 1]==ck, 1]=ck1
+			counter+=1
 		i=i+1
 	return g
  
@@ -209,12 +213,8 @@ def boo_t(data, bootstrap, tolerance):
 	
 	g=boo(data, bootstrap)
 	k1=g.get_edgelist()
-	j=0
-	for i in range(len(k1)):
-		if(g.es(j)['weight'][0]<tolerance):
-			g.delete_edges(k1[i])
-		else:
-			j+=1
+	edges=[k1[i] for i in range(len(k1)) if (g.es(i)['weight'][0]<tolerance)]
+	g.delete_edges(edges)
 	return(g)
 
 
