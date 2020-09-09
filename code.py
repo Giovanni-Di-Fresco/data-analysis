@@ -9,11 +9,10 @@ from scipy.sparse.csgraph import minimum_spanning_tree
 from collections import defaultdict,Counter
 from scipy.spatial.distance import squareform
 
-from sklearn.neighbors import kneighbors_graph
-import networkx as nx
+
 import igraph as ig
 
-import prova_lib as pp
+
 
                                                                             
 
@@ -185,7 +184,7 @@ def boo(data, bootstrap):
 	for i in range(bootstrap):
 		w=np.random.choice(range(len(data)),len(data))
 		corr1=data.loc[w].corr()
-		h=pp.mst(corr1)
+		h=mst(corr1)
 		k=h.get_edgelist()
 		for j in range(len(k)):
 			d[k[j]]+=1
