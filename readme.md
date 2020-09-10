@@ -1,6 +1,6 @@
 # data-analysis
 
-A library for data analysis that includes functions that returns: correlation matrix 
+A library for data analysis that includes functions that return: correlation matrix 
 heatmap, hierarchical clustering, minimum spanning tree. There is also implemented a 
 function that use a bootstrap method as a filter for correlation matrices.
 
