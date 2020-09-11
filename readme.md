@@ -33,7 +33,7 @@ https://igraph.org/python/
 
 Use cmat in order to compute the correlation matrix of the data.
 ```
-import code.py as pp
+import dafc.py as pp
 
 r=pp.cmat(file_path, filename, se=',', nparray=False)
 ```
