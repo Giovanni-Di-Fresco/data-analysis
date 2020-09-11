@@ -76,7 +76,7 @@ def heatmap(a, fgsx=15, fgsy=15, mticks=False, title='Correlation Matrix',
 	plt.show()
 
 
-def hierachical_order(corr_array, inplace=False, met='complete',
+def hierarchical_order(corr_array, inplace=False, met='complete',
 	dendogram=False, order=True):
 	'''
 	Perform the hierarchical clustering of a nxn matrix, and 
