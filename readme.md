@@ -45,13 +45,13 @@ the single linkage method.
 p=pp.hierarchical_order(r,met='single')
 ```
 
-The function mst compute the minimun spanning tre and returns an Igraph object.
+The function mst computes the minimun spanning tree and returns an Igraph object.
 
 ```
 h=pp.mst(r)
 ```
 
-The function boo_t filter the tree bootstrapping the rows of the data as a validation
+The function boo_t filters the tree bootstrapping the rows of the data as a validation
 method. It returns a weighted Igraph object. 
 
 ```
